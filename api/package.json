@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "API to store contacts",
+  "main": "src/index.js",
+  "repository": "https://github.com/nicolasteofilo/my-contacts",
+  "author": "Nicolas Teófilo",
+  "license": "MIT"
+}
