@@ -1,10 +1,8 @@
 const express = require('express');
+const routes = require('./routes');
 
 const app = express();
-
-app.get('/', (request, response) => {
-  response.json({ message: 'Hello Word' });
-});
+app.use(routes);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`🔥 Sever started at http://localhost:${PORT}`));
