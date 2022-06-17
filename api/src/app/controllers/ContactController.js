@@ -33,7 +33,7 @@ class ContactController {
     const contactExists = await ContactsRepository.findByEmail(email);
     if (contactExists) {
       return response.status(400).json({
-        error: 'This e-mail is already been taken',
+        error: 'This e-mail is already in use',
       });
     }
 
@@ -44,7 +44,38 @@ class ContactController {
     response.status(201).json(contact);
   }
 
-  update() {}
+  async update(request, response) {
+    const { id } = request.params;
+    const {
+      name, email, phone, category_id,
+    } = request.body;
+
+    const contactExists = await ContactsRepository.findByEmail(email);
+    if (!contactExists) {
+      return response.status(404).json({
+        error: 'User not foud',
+      });
+    }
+
+    if (!name) {
+      return response.status(400).json({
+        error: 'Field name is required',
+      });
+    }
+
+    const contactByEmail = await ContactsRepository.findByEmail(email);
+    if (!contactByEmail && contactByEmail.id !== id) {
+      return response.status(404).json({
+        error: 'User not foud',
+      });
+    }
+
+    const contact = await ContactsRepository.update(id, {
+      name, email, phone, category_id,
+    });
+
+    response.status(200).json(contact);
+  }
 
   async delete(request, response) {
     const { id } = request.params;
