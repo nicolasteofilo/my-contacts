@@ -1,14 +1,33 @@
+/* eslint-disable max-len */
 const db = require('../../database');
 
 class ContactsRepository {
   async findAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
-    const rows = await db.query(`SELECT * FROM contacts ORDER BY name ${direction}`);
+    const rows = await db.query(`
+      SELECT contacts.*, categories.name as category_name
+      FROM contacts
+      LEFT JOIN categories ON categories.id = contacts.category_id
+      ORDER BY contacts.name ${direction}
+      `);
+
+    /*
+      Sem especificar - vai usar o INNER JOIN
+      obs: a tabela da esquerda é que está no FROM e as da direita são as que estão no JOIN
+      INNER JOIN - apenas do  registros da tabela da esquerda que possui relacionamento com a tabela da direita, então vai retornar os registros que estão na inerseção
+      LEFT JOIN - todos os registros que estão na interseção, mas também vai retornar os registros que não estão na inerseção: todos os dados da tabela da esquerda
+      RIGHT JOIN - todos os registros que estão na interseção, mas também vai retornar os registros que não estão na inerseção: todos os dados da tabela da direita
+      FULL JOIN- vai retornar tudo
+      */
     return rows;
   }
 
   async findById(id) {
-    const [row] = await db.query('SELECT * FROM contacts WHERE id = $1', [id]);
+    const [row] = await db.query(`
+      SELECT contacts.*, categories.name as category_name
+      FROM contacts
+      LEFT JOIN categories ON categories.id = contacts.category_id
+      WHERE contacts.id = $1`, [id]);
     return row;
   }
 
