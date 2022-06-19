@@ -1,48 +1,25 @@
-const ContactsRepository = require('../repositories/ContactsRepository');
-const errors = require('../../errors');
+const FindAllContacts = require('../useCases/contacts/findAllContacts/FindAllContacts');
+const GetContactUseCase = require('../useCases/contacts/getContact/GetContactUseCase');
+const CreateContactUseCase = require('../useCases/contacts/createContact/CreateContactUseCase');
+const UpdateContactUseCase = require('../useCases/contacts/updateContact/UpdateContactUseCase');
+const DeleteContactUseCase = require('../useCases/contacts/deleteContact/DeleteContactUseCase');
 
 class ContactController {
   async index(request, response) {
     const { orderBy } = request.query;
-    const contacts = await ContactsRepository.findAll(orderBy);
+    const contacts = await FindAllContacts.execute(orderBy);
     response.json(contacts);
   }
 
   async show(request, response) {
     const { id } = request.params;
-    const contact = await ContactsRepository.findById(id);
-
-    if (!contact) {
-      return response.status(404).json({
-        error: errors.Contacts.notFound,
-      });
-    }
-
+    const contact = await GetContactUseCase.execute({ id });
     response.json(contact);
   }
 
   async store(request, response) {
-    const {
-      name, email, phone, category_id,
-    } = request.body;
-
-    if (!name) {
-      return response.status(400).json({
-        error: errors.Filds.nameIsRequired,
-      });
-    }
-
-    const contactExists = await ContactsRepository.findByEmail(email);
-    if (contactExists) {
-      return response.status(400).json({
-        error: errors.Contacts.emailInUse,
-      });
-    }
-
-    const contact = await ContactsRepository.create({
-      name, email, phone, category_id,
-    });
-
+    const body = request.body;
+    const contact = await CreateContactUseCase.execute(body);
     response.status(201).json(contact);
   }
 
@@ -51,34 +28,15 @@ class ContactController {
     const {
       name, email, phone, category_id,
     } = request.body;
-
-    const contactExists = await ContactsRepository.findById(id);
-
-    if (!contactExists) {
-      return response.status(404).send({ error: errors.Contacts.notFound });
-    }
-
-    if (!name) {
-      return response.status(400).json({
-        error: errors.Filds.nameIsRequired,
-      });
-    }
-
-    const contactByEmail = await ContactsRepository.findByEmail(email);
-    if (contactByEmail && contactByEmail.id !== id) {
-      return response.status(400).json({ error: errors.Contacts.emailInUse });
-    }
-
-    const contact = await ContactsRepository.update(id, {
-      name, email, phone, category_id,
-    });
-
+    const contact = await UpdateContactUseCase.execute(id, {
+      name, category_id, email, phone
+    })
     response.status(200).json(contact);
   }
 
   async delete(request, response) {
     const { id } = request.params;
-    await ContactsRepository.delete(id);
+    await DeleteContactUseCase.execute(id);
     response.sendStatus(204);
   }
 }

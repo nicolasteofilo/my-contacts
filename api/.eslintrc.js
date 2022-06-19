@@ -18,5 +18,8 @@ module.exports = {
     'no-unused-vars': ['error', {
       argsIgnorePattern: 'next',
     }],
+    'prefer-destructuring': ['error', {
+      argsIgnorePattern: 'body',
+    }],
   },
 };
