@@ -1,4 +1,5 @@
 const CategoriesRepository = require('../repositories/CategoriesRepository');
+const errors = require('../errors');
 
 class CategoryController {
   async index(request, response) {
@@ -12,7 +13,7 @@ class CategoryController {
 
     if (!name) {
       return response.status(400).json({
-        error: 'Field name is required',
+        error: errors.Filds.nameIsRequired,
       });
     }
 
@@ -29,11 +30,35 @@ class CategoryController {
 
     if (!category) {
       return response.status(404).json({
-        error: 'Category not foud',
+        error: errors.Categories.notFoud,
       });
     }
 
     return response.json(category);
+  }
+
+  async update(request, response) {
+    const { id } = request.params;
+    const { name } = request.body;
+
+    if (!name) {
+      response.status(400).json({
+        error: errors.Filds.nameIsRequired,
+      });
+    }
+
+    const categoryExists = await CategoriesRepository.findById(id);
+    if (!categoryExists) {
+      response.status(404).json({
+        error: errors.Categories.notFoud,
+      });
+    }
+
+    const category = await CategoriesRepository.update(id, {
+      name,
+    });
+
+    response.json(category);
   }
 }
 

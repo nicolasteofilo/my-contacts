@@ -1,4 +1,5 @@
 const ContactsRepository = require('../repositories/ContactsRepository');
+const errors = require('../errors');
 
 class ContactController {
   async index(request, response) {
@@ -13,7 +14,7 @@ class ContactController {
 
     if (!contact) {
       return response.status(404).json({
-        error: 'User not found',
+        error: errors.Contacts.notFound,
       });
     }
 
@@ -27,14 +28,14 @@ class ContactController {
 
     if (!name) {
       return response.status(400).json({
-        error: 'Field name is required',
+        error: errors.Filds.nameIsRequired,
       });
     }
 
     const contactExists = await ContactsRepository.findByEmail(email);
     if (contactExists) {
       return response.status(400).json({
-        error: 'This e-mail is already in use',
+        error: errors.Contacts.emailInUse,
       });
     }
 
@@ -54,18 +55,18 @@ class ContactController {
     const contactExists = await ContactsRepository.findById(id);
 
     if (!contactExists) {
-      return response.status(404).send({ error: 'contact not found' });
+      return response.status(404).send({ error: errors.Contacts.notFound });
     }
 
     if (!name) {
       return response.status(400).json({
-        error: 'Field name is required',
+        error: errors.Filds.nameIsRequired,
       });
     }
 
     const contactByEmail = await ContactsRepository.findByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
-      return response.status(400).json({ error: 'This e-mail is already in use' });
+      return response.status(400).json({ error: errors.Contacts.emailInUse });
     }
 
     const contact = await ContactsRepository.update(id, {
