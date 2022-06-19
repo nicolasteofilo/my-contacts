@@ -1,5 +1,5 @@
 const ContactsRepository = require('../repositories/ContactsRepository');
-const errors = require('../errors');
+const errors = require('../../errors');
 
 class ContactController {
   async index(request, response) {

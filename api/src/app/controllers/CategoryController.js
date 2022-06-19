@@ -1,69 +1,41 @@
-const CategoriesRepository = require('../repositories/CategoriesRepository');
-const errors = require('../errors');
+const CreateCategoryUseCase = require('../useCases/categories/createCategory/CreateCategoryUseCase');
+const GetCategoryUseCase = require('../useCases/categories/getCategory/GetCategoryUseCase');
+const UpdateCategoryUseCase = require('../useCases/categories/updateCategory/UpdateCategoryUseCase');
+const DeleteCategoryUseCase = require('../useCases/categories/deleteCategory/DeleteCategoryUseCase');
+const FindAllCategoriesUseCase = require('../useCases/categories/findAllCategories/FindAllCategoriesUseCase');
 
 class CategoryController {
   async index(request, response) {
     const { orderBy } = request.query;
-    const categories = await CategoriesRepository.findAll(orderBy);
+    const categories = await FindAllCategoriesUseCase.execute(orderBy);
     response.json(categories);
   }
 
   async store(request, response) {
     const { name } = request.body;
-
-    if (!name) {
-      return response.status(400).json({
-        error: errors.Filds.nameIsRequired,
-      });
-    }
-
-    const category = await CategoriesRepository.create({
-      name,
-    });
-    response.json(category);
+    const category = await CreateCategoryUseCase.execute(name);
+    response.status(201).json(category);
   }
 
   async show(request, response) {
     const { id } = request.params;
-
-    const category = await CategoriesRepository.findById(id);
-
-    if (!category) {
-      return response.status(404).json({
-        error: errors.Categories.notFoud,
-      });
-    }
-
+    const category = await GetCategoryUseCase.execute(id);
     return response.json(category);
   }
 
   async update(request, response) {
     const { id } = request.params;
     const { name } = request.body;
-
-    if (!name) {
-      response.status(400).json({
-        error: errors.Filds.nameIsRequired,
-      });
-    }
-
-    const categoryExists = await CategoriesRepository.findById(id);
-    if (!categoryExists) {
-      response.status(404).json({
-        error: errors.Categories.notFoud,
-      });
-    }
-
-    const category = await CategoriesRepository.update(id, {
+    const category = await UpdateCategoryUseCase.execute({
+      id,
       name,
     });
-
     response.json(category);
   }
 
   async delete(request, response) {
     const { id } = request.params;
-    await CategoriesRepository.delete(id);
+    await DeleteCategoryUseCase.execute(id);
     response.sendStatus(204);
   }
 }
