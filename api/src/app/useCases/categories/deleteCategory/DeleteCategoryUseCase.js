@@ -1,9 +1,11 @@
-const CategoriesRepository = require('../../../repositories/CategoriesRepository');
-
 class DeleteCategoryUseCase {
+  constructor(categoriesRepository) {
+    this.categoriesRepository = categoriesRepository
+  }
+
   async execute(id) {
-    await CategoriesRepository.delete(id);
+    await this.categoriesRepository.delete(id);
   }
 }
 
-module.exports = new DeleteCategoryUseCase();
+module.exports = DeleteCategoryUseCase;

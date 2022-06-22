@@ -1,4 +1,3 @@
-const CategoriesRepository = require('../../../repositories/CategoriesRepository');
 const { AppError } = require('../../../../errors/AppError');
 
 class CreateCategoryUseCase {

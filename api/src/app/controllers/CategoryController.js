@@ -7,6 +7,7 @@ const DeleteCategoryUseCase = require('../useCases/categories/deleteCategory/Del
 const FindAllCategoriesUseCase = require('../useCases/categories/findAllCategories/FindAllCategoriesUseCase');
 
 const createCategoryUseCase = new CreateCategoryUseCase(CategoriesRepository)
+const deleteCategoryUseCase = new DeleteCategoryUseCase(CategoriesRepository)
 class CategoryController {
   async index(request, response) {
     const { orderBy } = request.query;
@@ -38,7 +39,7 @@ class CategoryController {
 
   async delete(request, response) {
     const { id } = request.params;
-    await DeleteCategoryUseCase.execute(id);
+    await deleteCategoryUseCase.execute(id);
     response.sendStatus(204);
   }
 }
