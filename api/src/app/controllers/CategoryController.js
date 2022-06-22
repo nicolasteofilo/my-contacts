@@ -1,9 +1,12 @@
+const CategoriesRepository = require('../repositories/CategoriesRepository')
+
 const CreateCategoryUseCase = require('../useCases/categories/createCategory/CreateCategoryUseCase');
 const GetCategoryUseCase = require('../useCases/categories/getCategory/GetCategoryUseCase');
 const UpdateCategoryUseCase = require('../useCases/categories/updateCategory/UpdateCategoryUseCase');
 const DeleteCategoryUseCase = require('../useCases/categories/deleteCategory/DeleteCategoryUseCase');
 const FindAllCategoriesUseCase = require('../useCases/categories/findAllCategories/FindAllCategoriesUseCase');
 
+const createCategoryUseCase = new CreateCategoryUseCase(CategoriesRepository)
 class CategoryController {
   async index(request, response) {
     const { orderBy } = request.query;
@@ -13,7 +16,7 @@ class CategoryController {
 
   async store(request, response) {
     const { name } = request.body;
-    const category = await CreateCategoryUseCase.execute(name);
+    const category = await createCategoryUseCase.execute(name);
     response.status(201).json(category);
   }
 
