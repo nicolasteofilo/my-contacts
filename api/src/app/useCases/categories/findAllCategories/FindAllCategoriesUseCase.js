@@ -1,7 +1,7 @@
 const CategoriesRepository = require('../../../repositories/CategoriesRepository');
 
 class FindAllCategoriesUseCase {
-  async execute({ orderBy }) {
+  async execute(orderBy) {
     const categories = await CategoriesRepository.findAll(orderBy);
     return categories;
   }
