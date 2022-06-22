@@ -1,9 +1,12 @@
-const CategoriesRepository = require('../../../repositories/CategoriesRepository');
 const { AppError } = require('../../../../errors/AppError');
 
 class GetCategoryUseCase {
+  constructor(categoriesRepository) {
+    this.categoriesRepository = categoriesRepository
+  }
+
   async execute(id) {
-    const category = await CategoriesRepository.findById(id);
+    const category = await this.categoriesRepository.findById(id);
     if (!category) {
       throw new AppError('Category not foud');
     }
@@ -12,4 +15,4 @@ class GetCategoryUseCase {
   }
 }
 
-module.exports = new GetCategoryUseCase();
+module.exports = GetCategoryUseCase;

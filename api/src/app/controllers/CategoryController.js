@@ -8,6 +8,7 @@ const FindAllCategoriesUseCase = require('../useCases/categories/findAllCategori
 
 const createCategoryUseCase = new CreateCategoryUseCase(CategoriesRepository)
 const deleteCategoryUseCase = new DeleteCategoryUseCase(CategoriesRepository)
+const getCategoryUseCase = new GetCategoryUseCase(CategoriesRepository)
 class CategoryController {
   async index(request, response) {
     const { orderBy } = request.query;
@@ -23,7 +24,7 @@ class CategoryController {
 
   async show(request, response) {
     const { id } = request.params;
-    const category = await GetCategoryUseCase.execute(id);
+    const category = await getCategoryUseCase.execute(id);
     return response.json(category);
   }
 
