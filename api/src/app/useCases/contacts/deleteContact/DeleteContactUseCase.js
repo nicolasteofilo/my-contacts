@@ -1,9 +1,11 @@
-const ContactsRepository = require('../../../repositories/ContactsRepository')
-
 class DeleteContactUseCase {
+  constructor(contactsRepository) {
+    this.contactsRepository = contactsRepository
+  }
+
   async execute(id) {
-    await ContactsRepository.delete(id);
+    await this.contactsRepository.delete(id);
   }
 }
 
-module.exports = new DeleteContactUseCase()
+module.exports = DeleteContactUseCase;
