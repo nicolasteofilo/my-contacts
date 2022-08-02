@@ -1,6 +1,14 @@
+import { ThemeProvider } from 'styled-components';
+
+import GlobalStyles from './assets/styles/global';
+import defaultTheme from './assets/styles/themes/default';
+
 function App() {
   return (
-    <h1>Jstack</h1>
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyles />
+      <h1>Oi</h1>
+    </ThemeProvider>
   );
 }
 
