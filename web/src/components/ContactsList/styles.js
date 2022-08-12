@@ -20,7 +20,7 @@ export const Header = styled.header`
     font-weight: bold;
     border: 2px solid ${({ theme }) => theme.colors.primary.main};
     padding: 8px 16px;
-    border-radius: 4px;     
+    border-radius: 4px;
     transition: all 0.2s ease-in;
 
     &:hover {
@@ -52,7 +52,7 @@ export const ListContainer = styled.div`
 `;
 
 export const Card = styled.div`
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   padding: 16px;
   border-radius: 4px;
@@ -68,7 +68,7 @@ export const Card = styled.div`
     .contact-name {
       display: flex;
       align-items: center;
-      
+
       small {
         background-color: ${({ theme }) => theme.colors.primary.lighter};
         color: ${({ theme }) => theme.colors.primary.main};
@@ -80,7 +80,7 @@ export const Card = styled.div`
       }
     }
 
-  span {
+    span {
       display: block;
       font-size: 14px;
       color: ${({ theme }) => theme.colors.gray[200]};

@@ -2,7 +2,7 @@ import {
   Container,
   Header,
   ListContainer,
-  Card,
+  Card
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
@@ -21,7 +21,10 @@ export default function ContactsList() {
         <header>
           <button type="button">
             <span>Node</span>
-            <img src={arrow} alt="seta para cima, para reordenar a listagem de contatos" />
+            <img
+              src={arrow}
+              alt="seta para cima, para reordenar a listagem de contatos"
+            />
           </button>
         </header>
 
