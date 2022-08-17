@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import {
   Container,
   Header,
@@ -18,13 +20,13 @@ export default function Home() {
       </InputSearchContainer>
       <Header>
         <strong>3 contatos</strong>
-        <a href="/">Novo contato</a>
+        <Link to="/new">Novo contato</Link>
       </Header>
 
       <ListContainer>
         <header>
           <button type="button">
-            <span>Node</span>
+            <span>Nome</span>
             <img
               src={arrow}
               alt="seta para cima, para reordenar a listagem de contatos"
@@ -43,28 +45,9 @@ export default function Home() {
           </div>
 
           <div className="actions">
-            <a href="/">
+            <Link to="/edit/123">
               <img src={edit} alt="Editar" />
-            </a>
-            <button type="button">
-              <img src={trash} alt="Deletar" />
-            </button>
-          </div>
-        </Card>
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Mateus Silva</strong>
-              <small>instagram</small>
-            </div>
-            <span>mateus@teste.com</span>
-            <span>(41) 9999-9999</span>
-          </div>
-
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Editar" />
-            </a>
+            </Link>
             <button type="button">
               <img src={trash} alt="Deletar" />
             </button>
