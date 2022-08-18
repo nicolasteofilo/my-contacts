@@ -17,19 +17,21 @@ describe('<Button />', () => {
   it('should render button with correct styles', () => {
     renderWithTheme(<Button>Create new user</Button>);
 
-    expect(screen.getByRole('button', { name: /Create new user/i })).toHaveStyle({
+    expect(
+      screen.getByRole('button', { name: /Create new user/i })
+    ).toHaveStyle({
       background: theme.colors.primary.main,
       color: '#fff',
-    })
+    });
   });
 
   it('should render a disabled button', () => {
     renderWithTheme(<Button disabled>Disabled</Button>);
 
-    expect(screen.getByRole('button', { name: /Disabled/i })).toBeDisabled() 
+    expect(screen.getByRole('button', { name: /Disabled/i })).toBeDisabled();
     expect(screen.getByRole('button', { name: /Disabled/i })).toHaveStyle({
       background: '#ccc',
       cursor: 'default',
-    })
-  })
+    });
+  });
 });

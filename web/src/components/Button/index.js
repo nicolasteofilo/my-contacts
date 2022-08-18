@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export default styled.button`
-  width: 100%;
   height: 52px;
   border: none;
+  padding: 0 16px;
   font-weight: bold;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
