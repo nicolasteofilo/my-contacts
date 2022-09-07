@@ -58,7 +58,7 @@ export default function Home() {
   );
 }
 
-fetch('http://localhost:3000/')
+fetch('http://localhost:3001/contacts')
   .then((response) => {
     console.log(response);
   })
