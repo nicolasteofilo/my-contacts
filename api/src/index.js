@@ -1,25 +1,16 @@
 const express = require('express');
 require('express-async-errors');
 
-const { AppError } = require('./errors/AppError');
-
+const cors = require('./app/middlewares/cors');
+const errorHandler = require('./app/middlewares/errorHandler');
 const routes = require('./routes');
 
 const app = express();
 
 app.use(express.json());
+app.use(cors)
 app.use(routes);
-app.use(
-  (err, request, response, next) => {
-    if (err instanceof AppError) {
-      return response.status(err.statusCode).json({ message: err.message });
-    }
-
-    return response.status(500).json({
-      message: `Internal server error - ${err.message}`,
-    });
-  },
-);
+app.use(errorHandler);
 
 const PORT = 3001;
 app.listen(PORT, () => console.log(`🔥 Sever started at http://localhost:${PORT}`));

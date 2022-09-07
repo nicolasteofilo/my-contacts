@@ -16,7 +16,6 @@ class ContactController {
   async index(request, response) {
     const { orderBy } = request.query;
     const contacts = await findAllContactsUseCase.execute(orderBy);
-    response.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     response.json(contacts);
   }
 
