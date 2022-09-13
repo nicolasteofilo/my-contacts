@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {
   Container,
   Header,
-  ListContainer,
+  ListHeader,
   Card,
   InputSearchContainer,
 } from './styles';
@@ -15,15 +15,21 @@ import trash from '../../assets/images/icons/trash.svg';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
+  const [orderBy, setOrderBy] = useState('asc');
 
   useEffect(() => {
-    fetch('http://localhost:3001/contacts')
+    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
       .then(async (response) => {
         const json = await response.json();
         setContacts(json);
       })
       .catch(() => {});
-  }, []);
+  }, [orderBy]);
+
+  function handleToogleOrdeyBy() {
+    setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
+  }
+
   return (
     <Container>
       <InputSearchContainer>
@@ -36,9 +42,9 @@ export default function Home() {
         <Link to="/new">Novo contato</Link>
       </Header>
 
-      <ListContainer>
+      <ListHeader orderBy={orderBy}>
         <header>
-          <button type="button">
+          <button type="button" onClick={handleToogleOrdeyBy}>
             <span>Nome</span>
             <img
               src={arrow}
@@ -46,31 +52,29 @@ export default function Home() {
             />
           </button>
         </header>
+      </ListHeader>
 
-        {contacts.map((contact) => (
-          <Card key={contact.id}>
-            <div className="info">
-              <div className="contact-name">
-                <strong>{contact.name}</strong>
-                {contact.category_name && (
-                  <small>{contact.category_name}</small>
-                )}
-              </div>
-              {contact.email && <span>{contact.email}</span>}
-              <span>{contact.phone}</span>
+      {contacts.map((contact) => (
+        <Card key={contact.id}>
+          <div className="info">
+            <div className="contact-name">
+              <strong>{contact.name}</strong>
+              {contact.category_name && <small>{contact.category_name}</small>}
             </div>
+            {contact.email && <span>{contact.email}</span>}
+            <span>{contact.phone}</span>
+          </div>
 
-            <div className="actions">
-              <Link to={`/edit/${contact.id}`}>
-                <img src={edit} alt="Editar" />
-              </Link>
-              <button type="button">
-                <img src={trash} alt="Deletar" />
-              </button>
-            </div>
-          </Card>
-        ))}
-      </ListContainer>
+          <div className="actions">
+            <Link to={`/edit/${contact.id}`}>
+              <img src={edit} alt="Editar" />
+            </Link>
+            <button type="button">
+              <img src={trash} alt="Deletar" />
+            </button>
+          </div>
+        </Card>
+      ))}
     </Container>
   );
 }
