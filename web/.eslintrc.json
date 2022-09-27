@@ -24,6 +24,7 @@
       }
     ],
     "react/react-in-jsx-scope": "off",
-    "no-promise-executor-return": "off"
+    "no-promise-executor-return": "off",
+    "class-methods-use-this": "off"
   }
 }
