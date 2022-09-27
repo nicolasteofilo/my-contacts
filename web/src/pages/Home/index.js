@@ -15,8 +15,6 @@ import trash from '../../assets/images/icons/trash.svg';
 
 import Loader from '../../components/Loader';
 
-import delay from '../../utils/delay';
-
 export default function Home() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
@@ -32,17 +30,21 @@ export default function Home() {
   );
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
-      .then(async (response) => {
-        await delay(500);
+    async function loadContacts() {
+      try {
+        setIsLoading(true);
+
+        const response = await fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`);
         const json = await response.json();
         setContacts(json);
-      })
-      .catch(() => {})
-      .finally(() => {
+      } catch (error) {
+        alert(error);
+      } finally {
         setIsLoading(false);
-      });
+      }
+    }
+
+    loadContacts();
   }, [orderBy]);
 
   function handleToogleOrdeyBy() {

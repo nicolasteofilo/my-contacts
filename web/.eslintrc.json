@@ -14,7 +14,7 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "off",
     "import/prefer-default-export": "off",
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": [
