@@ -22,7 +22,7 @@ class ContactController {
   async show(request, response) {
     const { id } = request.params;
     const contact = await getContactUseCase.execute({ id });
-    response.json(contact);
+    response.status(200).json(contact);
   }
 
   async store(request, response) {

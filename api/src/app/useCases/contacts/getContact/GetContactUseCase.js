@@ -7,7 +7,7 @@ class GetContactUseCase {
   async execute({ id }) {
     const contact = await this.contactsRepository.findById(id);
     if (!contact) {
-      throw new AppError('Contact not foud');
+      throw new AppError('Contact not foud', 404);
     }
     return contact;
   }
