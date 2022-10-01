@@ -7,21 +7,25 @@ import {
   ListHeader,
   Card,
   InputSearchContainer,
+  ErrorContainer,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import sad from '../../assets/images/icons/sad.svg';
 
 import Loader from '../../components/Loader';
+import Button from '../../components/Button';
+
 import ContactsService from '../../service/ContactsService';
-import APIError from '../../errors/APIError';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const filteredContacts = useMemo(
     () =>
@@ -38,10 +42,9 @@ export default function Home() {
 
         const contactsList = await ContactsService.listContacts();
         setContacts(contactsList);
-      } catch (error) {
-        if(error instanceof APIError) {
-          console.error('is APIError', error);
-        }
+        setHasError(false);
+      } catch {
+        setHasError(true);
       } finally {
         setIsLoading(false);
       }
@@ -49,7 +52,7 @@ export default function Home() {
 
     loadContacts();
   }, [orderBy]);
-
+  console.log({ hasError });
   function handleToogleOrdeyBy() {
     setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
   }
@@ -69,13 +72,25 @@ export default function Home() {
           placeholder="Pesquisar contato..."
         />
       </InputSearchContainer>
-      <Header>
-        <strong>
-          {filteredContacts.length}{' '}
-          {filteredContacts.length === 1 ? 'contato' : 'contatos'}
-        </strong>
+      <Header hasError={hasError}>
+        {!hasError && (
+          <strong>
+            {filteredContacts.length}{' '}
+            {filteredContacts.length === 1 ? 'contato' : 'contatos'}
+          </strong>
+        )}
         <Link to="/new">Novo contato</Link>
       </Header>
+
+      {hasError && (
+        <ErrorContainer>
+          <img src={sad} alt="Cara triste" />
+          <div className="details">
+            <span>Ocorreu um erro ao obter os seus contatos!</span>
+            <Button>Tentar novamente</Button>
+          </div>
+        </ErrorContainer>
+      )}
 
       {filteredContacts.length > 0 && (
         <ListHeader orderBy={orderBy}>
