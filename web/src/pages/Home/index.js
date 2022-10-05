@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -35,11 +35,11 @@ export default function Home() {
     [contacts, searchTerm]
   );
 
-  async function loadContacts() {
+  const loadContacts = useCallback(async () => {
     try {
       setIsLoading(true);
 
-      const contactsList = await ContactsService.listContacts();
+      const contactsList = await ContactsService.listContacts(orderBy);
       setContacts(contactsList);
       setHasError(false);
     } catch {
@@ -47,11 +47,11 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [orderBy])
 
   useEffect(() => {
     loadContacts();
-  }, [orderBy]);
+  }, [loadContacts]);
 
   function handleToogleOrdeyBy() {
     setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
