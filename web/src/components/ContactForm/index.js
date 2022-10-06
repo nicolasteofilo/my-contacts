@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import isEmailValid from '../../utils/isEmailValid';
 import formatPhone from '../../utils/formatPhone';
 import useErrors from '../../hooks/useErrors';
+import CategoriesService from '../../service/CategoriesService';
 
 import { Form, ButtonContainer } from './styles';
 
@@ -11,18 +12,35 @@ import FormGroup from '../FormGroup';
 import Input from '../Input';
 import Select from '../Select';
 import Button from '../Button';
+import Loader from '../Loader';
 
 export default function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [category, setCategory] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
 
   const { errors, setError, removeError, getErrorMessageByFieldName } =
     useErrors();
-  console.log({ errors });
 
   const isFormValid = name && errors.length === 0;
+
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        setIsLoading(true);
+        const contactsList = await CategoriesService.listCategories();
+        setCategories(contactsList);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadCategories();
+  }, []);
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -56,6 +74,7 @@ export default function ContactForm({ buttonLabel }) {
 
   return (
     <Form onSubmit={(event) => handleSubmit(event)} noValidate>
+      <Loader isLoading={isLoading} />
       <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
           placeholder="Nome *"
@@ -83,12 +102,13 @@ export default function ContactForm({ buttonLabel }) {
       </FormGroup>
       <FormGroup>
         <Select
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
+          value={categoryId}
+          onChange={(event) => setCategoryId(event.target.value)}
         >
-          <option value="">Categoria</option>
-          <option value="instagram">Instagram</option>
-          <option value="linkedin">Linkedin</option>
+          <option value="">Sem categoria</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
         </Select>
       </FormGroup>
       <ButtonContainer>
