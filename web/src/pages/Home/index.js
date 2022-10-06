@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,7 @@ import {
   InputSearchContainer,
   ErrorContainer,
   EmptyListContainer,
+  SearchNotFoundContainer,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
@@ -17,6 +19,7 @@ import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import sad from '../../assets/images/icons/sad.svg';
 import emptyBox from '../../assets/images/icons/empty-box.svg';
+import magnifierQuestion from '../../assets/images/icons/magnifier-question.svg';
 
 import Loader from '../../components/Loader';
 import Button from '../../components/Button';
@@ -42,8 +45,7 @@ export default function Home() {
     try {
       setIsLoading(true);
 
-      const contactsList = [];
-      await ContactsService.listContacts(orderBy);
+      const contactsList = await ContactsService.listContacts(orderBy);
       setContacts(contactsList);
       setHasError(false);
     } catch {
@@ -112,15 +114,27 @@ export default function Home() {
 
       {!hasError && (
         <>
-          {contacts.length === 0 && (
+          {contacts.length === 0 && !isLoading && (
             <EmptyListContainer>
               <img src={emptyBox} alt="caixa vazia" />
               <p>
                 Você ainda não tem nenhum contato cadastrado! Clique no botão
-                <strong> ”Novo contato” </strong> à cima para cadastrar o seu primeiro!
+                <strong> ”Novo contato” </strong> à cima para cadastrar o seu
+                primeiro!
               </p>
             </EmptyListContainer>
           )}
+
+          {(searchTerm && filteredContacts.length === 0 && contacts.length > 0) && (
+            <SearchNotFoundContainer>
+              <img src={magnifierQuestion} alt="lupa" />
+              <p>
+                Nenhum resultado foi encontrado para{' '}
+                <strong>"{searchTerm}"</strong>
+              </p>
+            </SearchNotFoundContainer>
+          )}
+
           {filteredContacts.length > 0 && (
             <ListHeader orderBy={orderBy}>
               <header>
