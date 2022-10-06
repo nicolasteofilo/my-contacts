@@ -25,6 +25,7 @@
     ],
     "react/react-in-jsx-scope": "off",
     "no-promise-executor-return": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }]
   }
 }

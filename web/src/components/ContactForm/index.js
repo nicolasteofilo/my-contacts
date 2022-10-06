@@ -33,9 +33,7 @@ export default function ContactForm({ buttonLabel }) {
         setIsLoading(true);
         const contactsList = await CategoriesService.listCategories();
         setCategories(contactsList);
-      } catch (error) {
-        console.log(error);
-      } finally {
+      } catch {} finally {
         setIsLoading(false);
       }
     }
