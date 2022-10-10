@@ -12,13 +12,13 @@ import FormGroup from '../FormGroup';
 import Input from '../Input';
 import Select from '../Select';
 import Button from '../Button';
-import Loader from '../Loader';
+// import Loader from '../Loader';
 
 export default function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState('');
 
@@ -30,11 +30,10 @@ export default function ContactForm({ buttonLabel }) {
   useEffect(() => {
     async function loadCategories() {
       try {
-        setIsLoading(true);
         const contactsList = await CategoriesService.listCategories();
         setCategories(contactsList);
       } catch {} finally {
-        setIsLoading(false);
+        setIsLoadingCategories(false);
       }
     }
     loadCategories();
@@ -72,7 +71,7 @@ export default function ContactForm({ buttonLabel }) {
 
   return (
     <Form onSubmit={(event) => handleSubmit(event)} noValidate>
-      <Loader isLoading={isLoading} />
+      {/* <Loader isLoading={isLoadingCategories} /> */}
       <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
           placeholder="Nome *"
@@ -98,10 +97,11 @@ export default function ContactForm({ buttonLabel }) {
           maxLength="15"
         />
       </FormGroup>
-      <FormGroup>
+      <FormGroup isLoading={isLoadingCategories}>
         <Select
           value={categoryId}
           onChange={(event) => setCategoryId(event.target.value)}
+          disabled={isLoadingCategories}
         >
           <option value="">Sem categoria</option>
           {categories.map((category) => (
