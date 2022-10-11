@@ -14,7 +14,7 @@ import Select from '../Select';
 import Button from '../Button';
 // import Loader from '../Loader';
 
-export default function ContactForm({ buttonLabel }) {
+export default function ContactForm({ buttonLabel, onSubmit }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -32,7 +32,8 @@ export default function ContactForm({ buttonLabel }) {
       try {
         const contactsList = await CategoriesService.listCategories();
         setCategories(contactsList);
-      } catch {} finally {
+      } catch {
+      } finally {
         setIsLoadingCategories(false);
       }
     }
@@ -61,17 +62,11 @@ export default function ContactForm({ buttonLabel }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // console.log({
-    //   name,
-    //   email,
-    //   phone,
-    //   category,
-    // });
+    onSubmit({ name, email, phone, categoryId });
   }
 
   return (
     <Form onSubmit={(event) => handleSubmit(event)} noValidate>
-      {/* <Loader isLoading={isLoadingCategories} /> */}
       <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
           placeholder="Nome *"
@@ -105,7 +100,9 @@ export default function ContactForm({ buttonLabel }) {
         >
           <option value="">Sem categoria</option>
           {categories.map((category) => (
-            <option key={category.id} value={category.id}>{category.name}</option>
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
           ))}
         </Select>
       </FormGroup>
@@ -120,4 +117,5 @@ export default function ContactForm({ buttonLabel }) {
 
 ContactForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
