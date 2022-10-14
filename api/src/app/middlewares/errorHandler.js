@@ -1,7 +1,7 @@
 const { AppError } = require('../../errors/AppError');
 
 module.exports = (err, request, response, next) => {
-  if (err instanceof AppError) {
+  if (err instanceof AppError || err.message.includes('uuid')) {
     return response.status(err.statusCode).json({ error: err.message });
   }
 
