@@ -1,41 +1,25 @@
-import styled, { css } from 'styled-components';
+/* eslint-disable react/jsx-props-no-spreading */
+import PropTypes from 'prop-types';
+import Spinner from '../Spinner';
+import { StyledButton } from './styles';
 
-export default styled.button`
-  height: 52px;
-  border: none;
-  padding: 0 16px;
-  font-weight: bold;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-  color: #fff;
-  font-size: 16px;
-  transition: background 0.2s ease-in;
-  background: ${({ theme }) => theme.colors.primary.main};
+export default function Button({ children, type, disabled, isLoading, ...rest }) {
+  return (
+    <StyledButton type={type} disabled={disabled || isLoading} {...rest}>
+      {!isLoading && children} {isLoading && <Spinner size={16} />}
+    </StyledButton>
+  );
+}
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary.light};
-  }
+Button.propTypes = {
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  isLoading: PropTypes.bool,
+};
 
-  &:active {
-    background: ${({ theme }) => theme.colors.primary.dark};
-  }
-
-  &[disabled] {
-    background: #ccc;
-    cursor: default;
-  }
-
-  ${({ theme, danger }) =>
-    danger &&
-    css`
-      background: ${theme.colors.danger.main};
-
-      &:hover {
-        background: ${theme.colors.danger.light};
-      }
-
-      &:active {
-        background: ${theme.colors.danger.dark};
-      }
-    `}
-`;
+Button.defaultProps = {
+  type: 'button',
+  isLoading: false,
+  disabled: false,
+};

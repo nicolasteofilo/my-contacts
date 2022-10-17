@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import APIError from '../../errors/APIError';
 import delay from '../../utils/delay';
 
@@ -8,26 +7,23 @@ class HttpClient {
   }
 
   get(path, options) {
-    return this.makeRequest(path, {
-      method: 'GET',
-      headers: options?.headers
-    });
+    return this.makeRequest(path, { method: 'GET', headers: options?.headers });
   }
 
   post(path, options) {
     return this.makeRequest(path, {
-      method: 'GET',
+      method: 'POST',
       body: options?.body,
       headers: options?.headers,
     });
   }
 
-  put() {}
-
-  delete() {}
+  put(path, body) {
+    return this.makeRequest(path, { method: 'PUT', body });
+  }
 
   async makeRequest(path, options) {
-    // await delay(2000);
+    await delay(500);
 
     const headers = new Headers();
 
@@ -35,10 +31,10 @@ class HttpClient {
       headers.append('Content-Type', 'application/json');
     }
 
-    if(options.headers) {
+    if (options.headers) {
       Object.entries(options.headers).forEach(([name, value]) => {
         headers.append(name, value);
-      })
+      });
     }
 
     const response = await fetch(`${this.baseURL}${path}`, {
@@ -47,9 +43,8 @@ class HttpClient {
       headers,
     });
 
-    const contentType = response.headers.get('Content-Type');
     let responseBody = null;
-
+    const contentType = response.headers.get('Content-Type');
     if (contentType.includes('application/json')) {
       responseBody = await response.json();
     }
@@ -58,7 +53,7 @@ class HttpClient {
       return responseBody;
     }
 
-    throw new APIError(response, options.body);
+    throw new APIError(response, responseBody);
   }
 }
 

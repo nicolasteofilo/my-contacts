@@ -12,8 +12,11 @@ export default function NewContact() {
         category_id: formData.categoryId,
       };
       const response = await ContactsService.createContact(contact);
+      console.log({ response });
       console.log('NewContact', { contact }, { response });
-    } catch {}
+    } catch (error) {
+      console.log('err', { error });
+    }
   }
 
   return (
