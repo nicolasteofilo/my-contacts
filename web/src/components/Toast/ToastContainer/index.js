@@ -17,7 +17,6 @@ export default function ToastContainer() {
     }
 
     document.addEventListener('addtoast', handleAddToast)
-
     return () => {
       document.removeEventListener('addtoast', handleAddToast);
     }
