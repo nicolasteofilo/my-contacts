@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Container } from './styles';
@@ -6,6 +7,16 @@ import xCircle from '../../../assets/images/icons/x-circle.svg';
 import checkCircle from '../../../assets/images/icons/check-circle.svg';
 
 export default function ToastMessage({ message, onRemoveMessage }) {
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      onRemoveMessage(message.id)
+    }, message.duration || 7000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    }
+  }, [message, onRemoveMessage])
+
   function handleRemoveToast() {
     onRemoveMessage(message.id);
   }
@@ -29,6 +40,7 @@ ToastMessage.propTypes = {
     id: PropTypes.number.isRequired,
     type: PropTypes.oneOf(['default', 'success', 'danger']),
     text: PropTypes.string.isRequired,
+    duration: PropTypes.number,
   }).isRequired,
   onRemoveMessage: PropTypes.func.isRequired,
 };

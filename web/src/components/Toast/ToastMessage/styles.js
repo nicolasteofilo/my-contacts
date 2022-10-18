@@ -22,6 +22,7 @@ export const Container = styled.div`
   justify-content: center;
   border: none;
   cursor: pointer;
+  transition: all 2s;
 
   & + & {
     margin-top: 12px;

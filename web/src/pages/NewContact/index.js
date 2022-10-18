@@ -13,9 +13,17 @@ export default function NewContact() {
         category_id: formData.categoryId,
       };
       await ContactsService.createContact(contact);
-      toast('success', 'Contato cadastrado com sucesso!')
+      toast({
+        type: 'success',
+        text: 'Contato cadastrado com sucesso!',
+        duration: 5000,
+      });
     } catch (error) {
-      toast('danger', 'Ocorreu um erro ao cadastrar o contato! Tente novamente mais tarde.')
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao cadastrar o contato! Tente novamente mais tarde.',
+        duration: 5000,
+      });
     }
   }
 
