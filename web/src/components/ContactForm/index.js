@@ -64,6 +64,10 @@ export default function ContactForm({ buttonLabel, onSubmit }) {
     event.preventDefault();
     setIsSubmitting(true);
     await onSubmit({ name, email, phone, categoryId });
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCategoryId('');
     setIsSubmitting(false);
   }
 
