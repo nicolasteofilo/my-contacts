@@ -73,10 +73,6 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
     event.preventDefault();
     setIsSubmitting(true);
     await onSubmit({ name, email, phone, categoryId });
-    setName('');
-    setEmail('');
-    setPhone('');
-    setCategoryId('');
     setIsSubmitting(false);
   }
 

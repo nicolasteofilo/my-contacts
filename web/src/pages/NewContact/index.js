@@ -17,7 +17,7 @@ export default function NewContact() {
         type: 'success',
         text: 'Contato cadastrado com sucesso!',
       });
-    } catch (error) {
+    } catch {
       toast({
         type: 'danger',
         text: 'Ocorreu um erro ao cadastrar o contato! Tente novamente mais tarde.',

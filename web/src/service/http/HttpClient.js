@@ -18,8 +18,12 @@ class HttpClient {
     });
   }
 
-  put(path, body) {
-    return this.makeRequest(path, { method: 'PUT', body });
+  put(path, options) {
+    return this.makeRequest(path, {
+      method: 'PUT',
+      body: options?.body,
+      headers: options?.headers,
+    });
   }
 
   async makeRequest(path, options) {
