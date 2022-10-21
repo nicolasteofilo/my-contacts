@@ -23,6 +23,7 @@ import magnifierQuestion from '../../assets/images/icons/magnifier-question.svg'
 
 import Loader from '../../components/Loader';
 import Button from '../../components/Button';
+import Modal from '../../components/Modal';
 
 import ContactsService from '../../service/ContactsService';
 
@@ -74,6 +75,15 @@ export default function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
+      <Modal
+        danger
+        title={'Tem certeza que deseja remover "Mateus Silva"?'}
+        confirmLabel="Deletar"
+        onCancel={() => {}}
+        onConfirm={() => {alert('confirm')}}
+      >
+        Corpo do modal
+      </Modal>
       {contacts.length > 0 && (
         <InputSearchContainer>
           <input
@@ -125,7 +135,7 @@ export default function Home() {
             </EmptyListContainer>
           )}
 
-          {(searchTerm && filteredContacts.length === 0 && contacts.length > 0) && (
+          {searchTerm && filteredContacts.length === 0 && contacts.length > 0 && (
             <SearchNotFoundContainer>
               <img src={magnifierQuestion} alt="lupa" />
               <p>
