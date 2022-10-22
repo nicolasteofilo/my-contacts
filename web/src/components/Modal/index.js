@@ -13,24 +13,29 @@ export default function Modal({
   confirmLabel,
   onCancel,
   onConfirm,
+  visible,
 }) {
-  return ReactDOM.createPortal(
-    <Overlay>
-      <Container danger={danger}>
-        <h1>{title}</h1>
-        <div className="modal-body">{children}</div>
-        <Footer>
-          <button type="button" className="cancel-button" onClick={onCancel}>
-            {cancelLabel}
-          </button>
-          <Button type="button" danger={danger} onClick={onConfirm}>
-            {confirmLabel}
-          </Button>
-        </Footer>
-      </Container>
-    </Overlay>,
-    document.getElementById('modal-root')
-  );
+  if(visible) {
+    return ReactDOM.createPortal(
+      <Overlay>
+        <Container danger={danger}>
+          <h1>{title}</h1>
+          <div className="modal-body">{children}</div>
+          <Footer>
+            <button type="button" className="cancel-button" onClick={onCancel}>
+              {cancelLabel}
+            </button>
+            <Button type="button" danger={danger} onClick={onConfirm}>
+              {confirmLabel}
+            </Button>
+          </Footer>
+        </Container>
+      </Overlay>,
+      document.getElementById('modal-root')
+    );
+  }
+
+  return null;
 }
 
 Modal.propTypes = {
@@ -41,6 +46,7 @@ Modal.propTypes = {
   confirmLabel: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
 };
 
 Modal.defaultProps = {
