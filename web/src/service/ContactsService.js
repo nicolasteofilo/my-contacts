@@ -24,6 +24,10 @@ class ContactsService {
       body: contact
     })
   }
+
+  deleteContact(id) {
+    return this.httpClient.delete(`/contacts/${id}`)
+  }
 }
 
 export default new ContactsService();

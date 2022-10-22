@@ -43,5 +43,9 @@ export const Footer = styled.footer`
     font-size: 16px;
     margin-right: 16px;
     color: ${({ theme }) => theme.colors.gray[200]};
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
   }
 `;
