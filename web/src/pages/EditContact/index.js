@@ -7,11 +7,15 @@ import Loader from '../../components/Loader';
 
 import ContactsService from '../../service/ContactsService';
 import { toast } from '../../utils/toast';
+import useIsMounted from '../../hooks/useIsMonted';
+import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
 
 export default function EditContact() {
   const [isLoading, setIsLoading] = useState(true);
   const [contactName, setContactName] = useState('');
   const contactFormRef = useRef(null);
+  const isMounted = useIsMounted();
+  const safeAsyncAction = useSafeAsyncAction();
 
   const { id } = useParams();
   const history = useHistory();
@@ -20,19 +24,24 @@ export default function EditContact() {
     async function loadContact() {
       try {
         const contact = await ContactsService.getContactById(id);
-        contactFormRef.current.setFieldsValues(contact);
-        setContactName(contact.name);
-        setIsLoading(false);
+
+        safeAsyncAction(() => {
+          contactFormRef.current.setFieldsValues(contact);
+          setContactName(contact.name);
+          setIsLoading(false);
+        });
       } catch (error) {
-        history.push('/');
-        toast({
-          type: 'danger',
-          text: 'Ocorreu um erro ao buscar os dados do contato!',
+        safeAsyncAction(() => {
+          history.push('/');
+          toast({
+            type: 'danger',
+            text: 'Ocorreu um erro ao buscar os dados do contato!',
+          });
         });
       }
     }
     loadContact();
-  }, [id, history]);
+  }, [id, history, isMounted, safeAsyncAction]);
 
   async function handleSubmit(formData) {
     try {
@@ -59,7 +68,9 @@ export default function EditContact() {
   return (
     <>
       <Loader isLoading={isLoading} />
-      <PageHeader title={isLoading ? 'Carregando...' : `Editar ${contactName}`} />
+      <PageHeader
+        title={isLoading ? 'Carregando...' : `Editar ${contactName}`}
+      />
       <ContactForm
         ref={contactFormRef}
         buttonLabel="Salvar alterações"
