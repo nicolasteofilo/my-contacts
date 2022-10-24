@@ -5,23 +5,28 @@ MyContacts is an application to manage your contacts in a simple and easy way.
 
 
 
-### 📜 Reference
+## 📜 Reference
 The application was built on the [JStack](https://jstack.com.br/) course, a course focused on deep learning of JavaScript, NodeJS and ReactJS technologies.
 
+## 🏗️ Technologies
+- ReactJS
+- Styled Components
+- NodeJS (with Express)
+- SQL
+- Docker
 
-
-### 🪓  Functionalities
+## 🪓  Functionalities
 
 - Contacts CRUD
 - Categories CRUD
 
 
 
-### 🚀 Demonstration of use
+## 🚀 Demonstration of use
 ![Alt Text](./.github/assets/videos/demonstration-of-use.gif)
 
 
-### ⚙️ How to run
+## ⚙️ How to run
 
 Clone the project in your machine
 ```bash
@@ -54,7 +59,7 @@ Database Settings
 - Now, enter the database and run all the queries present in the file ***`my-contacts/api/src/database/schema.sql`***
 - And finally run the container 😀
 
-### 🧑 Authors
+## 🧑 Authors
 
 - [@nicolasteofilo](https://www.github.com/nicolasteofilo)
 
