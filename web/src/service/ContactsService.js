@@ -1,4 +1,5 @@
 import HttpClient from './http/HttpClient';
+import ContactMapper from './mappers/ContactMapper';
 
 class ContactsService {
   constructor() {
@@ -14,14 +15,16 @@ class ContactsService {
   }
 
   createContact(contact) {
+    const body = ContactMapper.toPersistence(contact);
     return this.httpClient.post(`/contacts`, {
-      body: contact
+      body
     })
   }
 
   updateContact(id, contact) {
+    const body = ContactMapper.toPersistence(contact);
     return this.httpClient.put(`/contacts/${id}`, {
-      body: contact
+      body
     })
   }
 
