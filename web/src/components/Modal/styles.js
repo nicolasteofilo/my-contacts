@@ -1,4 +1,24 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+`;
 
 export const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.7);
@@ -10,6 +30,7 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: ${fadeIn} 0.5s forwards;
 `;
 
 export const Container = styled.div`
@@ -19,6 +40,7 @@ export const Container = styled.div`
   border-radius: 4px;
   padding: 24px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+  animation: ${scaleIn} 0.5s forwards;
 
   > h1 {
     font-size: 22px;
