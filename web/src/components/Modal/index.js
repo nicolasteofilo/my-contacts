@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Overlay, Container, Footer } from './styles';
@@ -20,19 +20,30 @@ export default function Modal({
 }) {
   const [shouldRender, setShouldRender] = useState(visible);
 
+  const overlayRef = useRef(null);
+
   useEffect(() => {
-    let timeoutId;
+    function handleAnimationEnd() {
+      setShouldRender(false);
+    }
+
     if (visible) {
       setShouldRender(true);
-    } else {
-      timeoutId = setTimeout(() => {
-        setShouldRender(false);
-      }, 500)
+    }
+
+    const overlayRefElement = overlayRef.current;
+    if (!visible && overlayRefElement) {
+      overlayRefElement.addEventListener('animationend', handleAnimationEnd);
     }
 
     return () => {
-      clearTimeout(timeoutId);
-    }
+      if(overlayRefElement) {
+        overlayRefElement.removeEventListener(
+          'animationend',
+          handleAnimationEnd
+        );
+      }
+    };
   }, [visible]);
 
   if (!shouldRender) {
@@ -41,7 +52,7 @@ export default function Modal({
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay isLeaving={!visible}>
+      <Overlay isLeaving={!visible} ref={overlayRef}>
         <Container danger={danger} isLeaving={!visible}>
           <h1>{title}</h1>
           <div className="modal-body">{children}</div>
