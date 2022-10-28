@@ -44,7 +44,7 @@ export default function useHome() {
     setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
   }
 
-  function handleChangesearchTerm(event) {
+  function handleChangeSearchTerm(event) {
     setSearchTerm(event.target.value);
   }
 
@@ -90,7 +90,7 @@ export default function useHome() {
     isDeleteModalVisible,
     handleCloseDeleteModal,
     handleConfirmDeleteContact,
-    handleChangesearchTerm,
+    handleChangeSearchTerm,
     handleTryAgain,
     handleToogleOrdeyBy,
     handleDeleteContact,
