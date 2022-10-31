@@ -5,6 +5,7 @@ import ContactsService from '../../service/ContactsService';
 import { toast } from '../../utils/toast';
 
 export default function useHome() {
+  const [tabBeingSeen, setTabBeingSeen] = useState('Contatos');
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,6 +84,10 @@ export default function useHome() {
     }
   }
 
+  function handleChangeTabBeingSeen(tabName) {
+    setTabBeingSeen(tabName);
+  }
+
   return {
     isLoading,
     isLoadingDelete,
@@ -93,6 +98,8 @@ export default function useHome() {
     handleTryAgain,
     handleToogleOrdeyBy,
     handleDeleteContact,
+    handleChangeTabBeingSeen,
+    tabBeingSeen,
     contactBeingDeleted,
     contacts,
     searchTerm,
