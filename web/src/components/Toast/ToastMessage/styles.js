@@ -1,4 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const messageIn = keyframes`
+  0% { opacity: 0; transform: translateY(100px); }
+  100% { opacity: 1; transform: translateY(0px); }
+`;
 
 const containerVariants = {
   default: css`
@@ -23,6 +28,7 @@ export const Container = styled.div`
   border: none;
   cursor: pointer;
   transition: all 2s;
+  animation: ${messageIn} 0.5s forwards;
 
   & + & {
     margin-top: 12px;
