@@ -7,8 +7,8 @@ export default function useToastContainer() {
     handleAnimationEnd,
     handleRemoveItem,
     items,
-    pendingRemovalItemsIds,
-    setItems
+    setItems,
+    renderList,
   } = useAnimatedList();
 
   useEffect(() => {
@@ -32,8 +32,8 @@ export default function useToastContainer() {
 
   return {
     items,
-    pendingRemovalItemsIds,
     handleRemoveItem,
     handleAnimationEnd,
+    renderList
   };
 }
