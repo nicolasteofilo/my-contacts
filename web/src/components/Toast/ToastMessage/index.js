@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Container } from './styles';
@@ -6,28 +6,26 @@ import { Container } from './styles';
 import xCircle from '../../../assets/images/icons/x-circle.svg';
 import checkCircle from '../../../assets/images/icons/check-circle.svg';
 
-export default function ToastMessage({ message, onRemoveMessage, onAnimationEnd, isLeaving }) {
-  const animatedElementRef = useRef(null);
+export default function ToastMessage({ message, onRemoveMessage, isLeaving, animatedElementRef }) {
+  // useEffect(() => {
+  //   function handleAnimationEnd() {
+  //     onAnimationEnd(message.id);
+  //   }
 
-  useEffect(() => {
-    function handleAnimationEnd() {
-      onAnimationEnd(message.id);
-    }
+  //   const animatedRefElement = animatedElementRef.current;
+  //   if (isLeaving) {
+  //     animatedRefElement.addEventListener('animationend', handleAnimationEnd);
+  //   }
 
-    const animatedRefElement = animatedElementRef.current;
-    if (isLeaving) {
-      animatedRefElement.addEventListener('animationend', handleAnimationEnd);
-    }
-
-    return () => {
-      if(animatedRefElement) {
-        animatedRefElement.removeEventListener(
-          'animationend',
-          handleAnimationEnd
-        );
-      }
-    };
-  }, [isLeaving, message.id, onAnimationEnd])
+  //   return () => {
+  //     if(animatedRefElement) {
+  //       animatedRefElement.removeEventListener(
+  //         'animationend',
+  //         handleAnimationEnd
+  //       );
+  //     }
+  //   };
+  // }, [isLeaving, message.id, onAnimationEnd])
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -67,6 +65,6 @@ ToastMessage.propTypes = {
     duration: PropTypes.number,
   }).isRequired,
   onRemoveMessage: PropTypes.func.isRequired,
-  onAnimationEnd: PropTypes.func.isRequired,
   isLeaving: PropTypes.bool.isRequired,
+  animatedElementRef: PropTypes.shape().isRequired,
 };

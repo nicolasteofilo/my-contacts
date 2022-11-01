@@ -4,7 +4,6 @@ import { toastEventManager } from '../../../utils/toast';
 
 export default function useToastContainer() {
   const {
-    handleAnimationEnd,
     handleRemoveItem,
     items,
     setItems,
@@ -33,7 +32,6 @@ export default function useToastContainer() {
   return {
     items,
     handleRemoveItem,
-    handleAnimationEnd,
     renderList
   };
 }
