@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { renderWithTheme } from '../../utils/tests/helpers';
 
-import theme from '../../assets/styles/themes/default';
+import theme from '../../assets/styles/themes/dark';
 
 import Button from '.';
 
