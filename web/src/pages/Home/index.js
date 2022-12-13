@@ -13,7 +13,6 @@ import Modal from '../../components/Modal';
 
 export default function Home() {
   const {
-    isPending,
     isLoading,
     isLoadingDelete,
     isDeleteModalVisible,
@@ -56,7 +55,6 @@ export default function Home() {
 
       {hasContacts && (
         <>
-          {isPending && <h1>Carregando...</h1>}
           <ContactsList
             onDeleteContact={handleDeleteContact}
             onToogleOrdeyBy={handleToogleOrdeyBy}
