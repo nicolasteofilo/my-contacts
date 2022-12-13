@@ -1,5 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ import trash from '../../../../assets/images/icons/trash.svg';
 
 import { Card, ListHeader } from './styles';
 
-export default function ContactsList({
+function ContactsList({
   filteredContacts,
   onDeleteContact,
   onToogleOrdeyBy,
@@ -72,3 +73,5 @@ ContactsList.propTypes = {
   onToogleOrdeyBy: PropTypes.func.isRequired,
   orderBy: PropTypes.string.isRequired,
 };
+
+export default memo(ContactsList);
