@@ -41,9 +41,10 @@ export default function useContactForm(onSubmit, ref) {
   );
 
   useEffect(() => {
+    const controller = new AbortController();
     async function loadCategories() {
       try {
-        const contactsList = await CategoriesService.listCategories();
+        const contactsList = await CategoriesService.listCategories(controller.signal);
         setCategories(contactsList);
       } catch {
       } finally {
@@ -51,6 +52,10 @@ export default function useContactForm(onSubmit, ref) {
       }
     }
     loadCategories();
+
+    return () => {
+      controller.abort();
+    }
   }, []);
 
   function handleNameChange(event) {
