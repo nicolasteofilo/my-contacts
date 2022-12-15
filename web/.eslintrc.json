@@ -23,6 +23,7 @@
     "react-hooks"
   ],
   "rules": {
+      "react/require-default-props": "off",
     "prettier/prettier": "off",
     "import/prefer-default-export": "off",
     "react/jsx-no-bind": "off",
