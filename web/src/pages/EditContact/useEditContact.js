@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import ContactsService from '../../service/ContactsService';
 import { toast } from '../../utils/toast';
@@ -14,7 +14,7 @@ export default function useEditContact() {
   const safeAsyncAction = useSafeAsyncAction();
 
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -32,7 +32,7 @@ export default function useEditContact() {
           return;
         }
         safeAsyncAction(() => {
-          history.push('/');
+          navigate('/', { replace: true });
           toast({
             type: 'danger',
             text: 'Ocorreu um erro ao buscar os dados do contato!',
@@ -45,7 +45,7 @@ export default function useEditContact() {
     return () => {
       controller.abort();
     }
-  }, [id, history, isMounted, safeAsyncAction]);
+  }, [id, navigate, isMounted, safeAsyncAction]);
 
   async function handleSubmit(contact) {
     try {

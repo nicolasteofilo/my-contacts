@@ -9,7 +9,7 @@ export const Container = styled.header`
   padding-bottom: 16px;
 
   strong {
-    color: #222;
+    color: ${({ theme }) => theme.colors.gray[900]};
     font-size: 24px;
   }
 
